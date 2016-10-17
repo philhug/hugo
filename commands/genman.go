@@ -16,11 +16,13 @@ package commands
 import (
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/cobra/doc"
 	"github.com/spf13/hugo/helpers"
 	"github.com/spf13/hugo/hugofs"
+	"github.com/spf13/hugo/hugolib"
 	jww "github.com/spf13/jwalterweatherman"
 )
 
@@ -38,6 +40,11 @@ in the "man" directory under the current directory.`,
 			Manual:  "Hugo Manual",
 			Source:  fmt.Sprintf("Hugo %s", helpers.HugoVersion()),
 		}
+		t, err := time.Parse("2006-01-02T15:04:05-0700", hugolib.BuildDate)
+		if err == nil {
+			header.Date = &t
+		}
+
 		if !strings.HasSuffix(genmandir, helpers.FilePathSeparator) {
 			genmandir += helpers.FilePathSeparator
 		}
